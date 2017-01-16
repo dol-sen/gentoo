@@ -1,0 +1,36 @@
+From 1f6071026846f0adeb098109a2da4ccc313694a4 Mon Sep 17 00:00:00 2001
+From: Brian Dolbec <dolsen@gentoo.org>
+Date: Mon, 16 Jan 2017 11:58:15 -0800
+Subject: [PATCH] tests/test_process.py: Add WRITABLE_TESTPATH environment
+ override
+
+For sandboxed installtion/test environments, Using normal sys.path does not work due to
+permissions.  Also exporting PYTHONPATH before the tests does not work due to sys.path
+manipulation in tests.  This adds an override directory with write permissions.
+ This patch assumes WRITABLE_TESTPATH exists and is populated with a *.pth file for
+find_writable_pth_directory() to return it as teh directory.
+---
+ tests/test_process.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/tests/test_process.py b/tests/test_process.py
+index 6ed566e4..387c2570 100644
+--- a/tests/test_process.py
++++ b/tests/test_process.py
+@@ -1181,7 +1181,12 @@ def possible_pth_dirs():
+         if g:
+             yield d
+ 
+-    # If we're still looking, then try the Python library directory.
++    # If we're still looking...
++    writable_testpath = os.environ.get('WRITABLE_TESTPATH')
++    if writable_testpath:
++        yield writable_testpath
++
++    # NO? then try the Python library directory.
+     # https://bitbucket.org/ned/coveragepy/issue/339/pth-test-malfunctions
+     import distutils.sysconfig                  # pylint: disable=import-error
+     yield distutils.sysconfig.get_python_lib()
+-- 
+2.11.0
+
