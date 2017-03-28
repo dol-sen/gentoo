@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
@@ -7,14 +7,19 @@ PYTHON_COMPAT=( python2_7 )
 inherit twisted-r1 eutils
 
 DESCRIPTION="Epsilon is a Python utilities package, most famous for its Time class"
-HOMEPAGE="http://divmod.org/trac/wiki/DivmodEpsilon https://pypi.python.org/pypi/Epsilon"
+HOMEPAGE="https://github.com/twisted/epsilon https://pypi.python.org/pypi/Epsilon"
 SRC_URI="mirror://pypi/${TWISTED_PN:0:1}/${TWISTED_PN}/${TWISTED_P}.tar.gz"
 
 KEYWORDS="~amd64 ~ppc ~ppc64 ~sparc ~x86"
 IUSE="test"
 
-RDEPEND=">=dev-python/twisted-core-13.2.0[${PYTHON_USEDEP}]
-		>=dev-python/pyopenssl-0.13[${PYTHON_USEDEP}]"
+RDEPEND="
+	>=dev-python/pyopenssl-0.13[${PYTHON_USEDEP}]
+	|| (
+		>=dev-python/twisted-16.0.0[${PYTHON_USEDEP}]
+		>=dev-python/twisted-core-13.2.0[$(python_gen_usedep 'python2*')]
+	)
+"
 DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]
 		test? ( dev-python/nose[${PYTHON_USEDEP}] )
 		${DEPEND}"
