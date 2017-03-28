@@ -18,7 +18,11 @@ KEYWORDS="~alpha amd64 arm hppa ~ia64 ~ppc ~ppc64 ~s390 ~sh ~sparc x86 ~amd64-li
 IUSE="test"
 
 RDEPEND="dev-python/setuptools[${PYTHON_USEDEP}]
-	dev-python/twisted-core[${PYTHON_USEDEP}]"
+	|| (
+		>=dev-python/twisted-16.0.0[${PYTHON_USEDEP}]
+		>=dev-python/twisted-core[${PYTHON_USEDEP}]
+	)
+"
 DEPEND="${RDEPEND}
 	test? ( dev-python/mock[${PYTHON_USEDEP}] )"
 
