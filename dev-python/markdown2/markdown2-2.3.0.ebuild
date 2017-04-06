@@ -1,9 +1,9 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
 
-PYTHON_COMPAT=( python{2_7,3_4} pypy )
+PYTHON_COMPAT=( python2_7 python3_{4,5,6} pypy )
 
 inherit distutils-r1
 
@@ -28,5 +28,5 @@ python_prepare_all() {
 
 python_test() {
 	cd test || die
-	"${PYTHON}" test.py || die "Tests fail with ${EPYTHON}"
+	"${EPYTHON}" test.py || die "Tests fail with ${EPYTHON}"
 }
