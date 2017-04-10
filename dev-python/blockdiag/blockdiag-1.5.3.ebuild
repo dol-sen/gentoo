@@ -1,8 +1,8 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
-PYTHON_COMPAT=( python2_7 python3_4 )
+PYTHON_COMPAT=( python2_7 python3_{4,5,6} )
 
 inherit distutils-r1
 
@@ -18,6 +18,7 @@ IUSE="test"
 RDEPEND="
 	>=dev-python/funcparserlib-0.3.6[${PYTHON_USEDEP}]
 	>=dev-python/pillow-2.2.1[${PYTHON_USEDEP}]
+	dev-python/webcolors[${PYTHON_USEDEP}]
 "
 DEPEND="
 	${RDEPEND}
@@ -28,12 +29,19 @@ DEPEND="
 		dev-python/reportlab[${PYTHON_USEDEP}]
 		dev-python/docutils[${PYTHON_USEDEP}]
 		>=dev-python/pep8-1.3[${PYTHON_USEDEP}]
+		media-fonts/ja-ipafonts
 	)
 "
 
+PATCHES=( "${FILESDIR}/blockdiag-1.5.3-py2_7-test-fix.patch")
 python_prepare_all() {
 	sed -i -e /build-base/d setup.cfg || die
 	distutils-r1_python_prepare_all
+}
+
+python_test() {
+	# NOTE: requires FEATURES="-network-sandbox" for some tests to pass
+	nosetests || die "Tests fail with ${EPYTHON}"
 }
 
 pkg_postinst() {
