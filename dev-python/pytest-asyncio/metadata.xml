@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>dolsen@gentoo.org</email>
+		<name>Brian Dolbec</name>
+		<description>Primary maintainer</description>
+	</maintainer>
+	<maintainer type="project">
+		<email>python@gentoo.org</email>
+		<name>Python</name>
+	</maintainer>
+	<upstream>
+		<maintainer>
+			<email>tinchester@gmail.com</email>
+			<name>Tin Tvrtkovic</name>
+		</maintainer>
+		<remote-id type="pypi">pytest-asyncio</remote-id>
+		<remote-id type="github">pytest-dev/pytest-asyncio</remote-id>
+	</upstream>
+	<longdescription>
+		pytest-asyncio is a library, written in Python, for testing asyncio code with pytest.
+	</longdescription>
+</pkgmetadata>
