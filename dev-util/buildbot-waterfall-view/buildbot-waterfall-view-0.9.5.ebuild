@@ -3,15 +3,15 @@
 
 EAPI="5"
 PYTHON_REQ_USE="sqlite"
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python2_7 python3_{4,5} )
 
 EGIT_REPO_URI="git://github.com/buildbot/buildbot.git"
 
 [[ ${PV} == *9999 ]] && inherit git-r3
 inherit distutils-r1
 
-DESCRIPTION="Buildbot console-view plugin"
-HOMEPAGE="https://buildbot.net/ https://github.com/buildbot/buildbot https://pypi.python.org/pypi/buildbot-console-view"
+DESCRIPTION="Buildbot waterfall-view plugin"
+HOMEPAGE="https://buildbot.net/ https://github.com/buildbot/buildbot https://pypi.python.org/pypi/buildbot-waterfall-view"
 
 MY_V="${PV/_p/p}"
 MY_P="${PN}-${MY_V}"

@@ -1,36 +1,44 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI="6"
 PYTHON_COMPAT=( python2_7 )
 
-EGIT_REPO_URI="https://github.com/buildbot/buildbot.git"
+EGIT_REPO_URI="https://github.com/buildbot/buildbot_travis.git"
 
 [[ ${PV} == *9999 ]] && inherit git-r3
 inherit readme.gentoo user distutils-r1
 
-DESCRIPTION="BuildBot Slave Daemon"
-HOMEPAGE="https://buildbot.net/ https://github.com/buildbot/buildbot https://pypi.python.org/pypi/buildbot-worker"
+DESCRIPTION="Travis CI implemented in Buildbot"
+HOMEPAGE="https://github.com/buildbot/buildbot_travis https://pypi.python.org/pypi/buildbot_travis"
 
 MY_V="${PV/_p/p}"
 MY_P="${PN}-${MY_V}"
-[[ ${PV} == *9999 ]] || SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${MY_P}.tar.gz"
+[[ ${PV} == *9999 ]] || SRC_URI=""
 
-LICENSE="GPL-2"
+LICENSE="MIT"
 SLOT="0"
 if [[ ${PV} == *9999 ]]; then
 	KEYWORDS=""
 else
-	KEYWORDS="~amd64"
+	KEYWORDS="~amd64 ~x86"
 fi
 IUSE="test"
 
 RDEPEND=">=dev-python/setuptools-21.2.1[${PYTHON_USEDEP}]
-	|| ( >=dev-python/twisted-16.0.0[${PYTHON_USEDEP}]
-		>=dev-python/twisted-core-8.0.0[${PYTHON_USEDEP}]
-	)
+	>=dev-python/buildbot-0.9.1[${PYTHON_USEDEP}]
+	dev-python/buildbot-worker[${PYTHON_USEDEP}]
+	dev-python/buildbot-www[${PYTHON_USEDEP}]
+	dev-python/pyjade[${PYTHON_USEDEP}]
+	dev-python/txgithub[${PYTHON_USEDEP}]
+	dev-python/txrequests[${PYTHON_USEDEP}]
 	dev-python/future[${PYTHON_USEDEP}]
-	!<dev-util/buildbot-0.9.0_rc1
+	dev-python/ldap3[${PYTHON_USEDEP}]
+	dev-python/hyper_sh[${PYTHON_USEDEP}]
+	dev-python/urwid[${PYTHON_USEDEP}]
+	dev-python/pyyaml[${PYTHON_USEDEP}]
+	dev-python/klein[${PYTHON_USEDEP}]
+
 "
 DEPEND="${RDEPEND}
 	test? (
@@ -38,9 +46,6 @@ DEPEND="${RDEPEND}
 		dev-python/setuptools_trial[${PYTHON_USEDEP}]
 	)
 "
-
-S="${WORKDIR}/${MY_P}"
-[[ ${PV} == *9999 ]] && S=${S}/slave
 
 pkg_setup() {
 	enewuser buildbot
@@ -57,7 +62,7 @@ pkg_setup() {
 python_test() {
 	distutils_install_for_testing
 
-	esetup.py test || die "Tests failed under ${EPYTHON}"
+	trial buildbot_travis.test || die "Tests failed under ${EPYTHON}"
 }
 
 python_install_all() {
@@ -65,15 +70,12 @@ python_install_all() {
 
 	doman docs/buildbot-worker.1
 
-	newconfd "${FILESDIR}/buildbot_worker.confd" buildbot_worker
-	newinitd "${FILESDIR}/buildbot_worker.initd" buildbot_worker
+	newconfd "${FILESDIR}/buildbot_travis.confd" buildbot_worker
+	newinitd "${FILESDIR}/buildbot_travis.initd" buildbot_worker
 
 	readme.gentoo_create_doc
 }
 
 pkg_postinst() {
 	readme.gentoo_print_elog
-	ewarn "conf.d and init.d files as 'buildslave', when it should have been"
-	ewarn "'buildbot_worker' as it is in the previous 0.9 versions."
-	ewarn "Only the 0.8 and previous versions should use the name 'buildslave'"
 }

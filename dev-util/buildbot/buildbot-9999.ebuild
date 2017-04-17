@@ -3,7 +3,7 @@
 
 EAPI="5"
 PYTHON_REQ_USE="sqlite"
-PYTHON_COMPAT=( python2_7 python3_{4,5,6} )
+PYTHON_COMPAT=( python2_7 python3_{4,5} )
 
 EGIT_REPO_URI="https://github.com/buildbot/${PN}.git"
 
@@ -14,7 +14,7 @@ MY_PV="${PV/_p/p}"
 MY_P="${PN}-${MY_PV}"
 
 DESCRIPTION="BuildBot build automation system"
-HOMEPAGE="http://buildbot.net/ https://github.com/buildbot/buildbot https://pypi.python.org/pypi/buildbot"
+HOMEPAGE="https://buildbot.net/ https://github.com/buildbot/buildbot https://pypi.python.org/pypi/buildbot"
 [[ ${PV} == *9999 ]] || SRC_URI="mirror://pypi/${PN:0:1}/${PN}/${MY_P}.tar.gz"
 
 LICENSE="GPL-2"
@@ -27,14 +27,14 @@ fi
 
 IUSE="crypt doc examples irc test"
 
-RDEPEND=">=dev-python/jinja-2.1[${PYTHON_USEDEP}]
-	$(python_gen_cond_dep '>=dev-python/twisted-16.0.0[${PYTHON_USEDEP}]' python2_7)
-	$(python_gen_cond_dep '>=dev-python/twisted-17.1.0[${PYTHON_USEDEP}]' python3_5 python3_6)
+RDEPEND="
+	>=dev-python/jinja-2.1[${PYTHON_USEDEP}]
+	$(python_gen_cond_dep '>=dev-python/twisted-16.0.0[${PYTHON_USEDEP},crypt?]' python2_7 )
+	$(python_gen_cond_dep '>=dev-python/twisted-17.1.0[${PYTHON_USEDEP},crypt?]' python3_5 python3_6 )
 	>=dev-python/autobahn-0.16.0[${PYTHON_USEDEP}]
 	>=dev-python/sqlalchemy-0.8[${PYTHON_USEDEP}]
 	>=dev-python/sqlalchemy-migrate-0.9[${PYTHON_USEDEP}]
 	crypt? (
-		dev-python/twisted[${PYTHON_USEDEP} crypt]
 		>=dev-python/pyopenssl-16.0.0[${PYTHON_USEDEP}]
 		dev-python/idna[${PYTHON_USEDEP}]
 		dev-python/service_identity[${PYTHON_USEDEP}]

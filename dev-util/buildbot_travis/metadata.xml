@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>dolsen@gentoo.org</email>
+		<name>Brian Dolbec</name>
+	</maintainer>
+	<upstream>
+		<maintainer>
+			<email>buildbot-devel@lists.sourceforge.ne</email>
+			<name>Buildbot community</name>
+		</maintainer>
+		<remote-id type="guthub">buildbot/buildbot_travis</remote-id>
+		<remote-id type="pypi">buildbot_travis</remote-id>
+	</upstream>
+</pkgmetadata>

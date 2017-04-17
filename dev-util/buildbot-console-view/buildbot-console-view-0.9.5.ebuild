@@ -3,7 +3,7 @@
 
 EAPI="5"
 PYTHON_REQ_USE="sqlite"
-PYTHON_COMPAT=( python2_7 )
+PYTHON_COMPAT=( python2_7 python3_{4,5} )
 
 EGIT_REPO_URI="git://github.com/buildbot/buildbot.git"
 
